@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,6 +9,23 @@ namespace ClinicaCentral
         public LoginWindow()
         {
             InitializeComponent();
+
+            if (!Database.TestConnection(out string err))
+            {
+                MessageBox.Show("Cannot reach the database. Is MySQL running in Laragon?\n\n" + err,
+                    "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                Database.EnsureDefaultAdmin(); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not prepare the users table:\n\n" + ex.Message,
+                    "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void TxtPassword_PasswordChanged(object sender, RoutedEventArgs e)
@@ -19,32 +37,40 @@ namespace ClinicaCentral
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string user = txtUsername.Text.Trim();
+            string login = txtUsername.Text.Trim();
             string pass = txtPassword.Password;
 
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(pass))
             {
                 MessageBox.Show("Please enter your username and password.",
                     "Login", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            bool isValid = user == "admin" && pass == "admin123"; 
-
-            if (isValid)
+            try
             {
-                MessageBox.Show("Login successful!", "Login");
+                if (Database.Authenticate(login, pass, out string username, out string role))
+                {
+                    var dashboard = new DashboardWindow(username, role);
+                    dashboard.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password.", "Login",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Invalid credentials.", "Login",
+                MessageBox.Show("Login failed:\n\n" + ex.Message, "Login",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Open your Register window here.", "Register");
+            MessageBox.Show("Registration page coming soon.", "Register");
         }
     }
 }
