@@ -166,6 +166,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="ClinicaCentral_Logo.png" Width="320" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,0,6"/>
             <TextBlock HorizontalAlignment="Center" FontSize="48" FontWeight="Bold">
                 <Run Text="Clinica" Foreground="White"/><Run Text="Central" Foreground="#3A6BC4"/>
             </TextBlock>

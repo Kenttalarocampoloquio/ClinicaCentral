@@ -64,6 +64,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="ClinicaCentral_Logo.png" Width="320" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+
             <TextBlock HorizontalAlignment="Center" Margin="0,8,0,0"
                        FontSize="48" FontWeight="Bold">
                 <Run Text="Clinica" Foreground="White"/><Run Text="Central" Foreground="#3A6BC4"/>
@@ -95,14 +97,17 @@
                         <TextBox x:Name="txtUsername" Grid.Column="1"
                                  Background="Transparent" BorderThickness="0"
                                  FontSize="17" VerticalContentAlignment="Center"/>
-                        <TextBlock Grid.Column="1" Text="Username or Email" Style="{StaticResource Hint}">
-                            <TextBlock.Visibility>
-                                <Binding ElementName="txtUsername" Path="Text.IsEmpty">
-                                    <Binding.Converter>
-                                        <BooleanToVisibilityConverter/>
-                                    </Binding.Converter>
-                                </Binding>
-                            </TextBlock.Visibility>
+                        <TextBlock Grid.Column="1" Text="Username or Email">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource Hint}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=txtUsername}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
                         </TextBlock>
                     </Grid>
                 </Border>
