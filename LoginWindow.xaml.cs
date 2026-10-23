@@ -16,7 +16,6 @@ namespace ClinicaCentral
                     "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
             try
             {
                 Database.EnsureDefaultAdmin(); 
@@ -27,7 +26,6 @@ namespace ClinicaCentral
                     "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void TxtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             lblPasswordHint.Visibility = txtPassword.Password.Length == 0
