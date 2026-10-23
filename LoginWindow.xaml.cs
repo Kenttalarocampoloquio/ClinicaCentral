@@ -18,7 +18,7 @@ namespace ClinicaCentral
             }
             try
             {
-                Database.EnsureDefaultAdmin(); 
+                Database.EnsureDefaultAdmin();
             }
             catch (Exception ex)
             {
@@ -68,7 +68,8 @@ namespace ClinicaCentral
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Registration page coming soon.", "Register");
+            new RegisterWindow().Show();
+            Close();
         }
     }
 }
